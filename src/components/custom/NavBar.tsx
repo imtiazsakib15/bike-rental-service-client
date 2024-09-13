@@ -42,12 +42,12 @@ const NavBar = () => {
                 Login
               </NavLink>
               <NavLink
-                to={"/register"}
+                to={"/signup"}
                 className={({ isActive }) =>
                   isActive ? "border-b-2 border-blue-900" : ""
                 }
               >
-                Register
+                Sign Up
               </NavLink>
             </div>
             <div className="md:hidden">
@@ -81,12 +81,12 @@ const NavBar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <NavLink
-                        to={"/register"}
+                        to={"/signup"}
                         className={({ isActive }) =>
                           isActive ? "border-b-2 border-blue-900" : ""
                         }
                       >
-                        Register
+                        Sign Up
                       </NavLink>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
