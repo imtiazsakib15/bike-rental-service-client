@@ -13,26 +13,35 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Container from "@/components/custom/Container";
-
-const FormSchema = z.object({
-  email: z
-    .string()
-    .email({ message: "Please provide a valid email address" })
-    .trim()
-    .toLowerCase(),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
-});
+import { FORM_SCHEMA } from "@/constants/login.constant";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { toast } from "sonner";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/features/auth/authSlice";
 
 const Login = () => {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof FORM_SCHEMA>>({
+    resolver: zodResolver(FORM_SCHEMA),
+    defaultValues: { email: "", password: "" },
   });
+  const [login] = useLoginMutation();
+  const dispatch = useAppDispatch();
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-  }
+  const onSubmit = async (data: z.infer<typeof FORM_SCHEMA>) => {
+    const toastId = toast.loading("Loading");
+    try {
+      const result = await login(data).unwrap();
+      if (result?.success) {
+        toast.success(result.message || "Login successfully", { id: toastId });
+        const user = { email: result.data.email, role: result.data.role };
+
+        dispatch(setUser({ user, token: result.token }));
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error?.data?.message || "An error occured", { id: toastId });
+    }
+  };
 
   return (
     <Container>

@@ -34,7 +34,7 @@ const NavBar = () => {
                 </NavLink>
               ))}
               <NavLink
-                to={"/login"}
+                to={"/auth/login"}
                 className={({ isActive }) =>
                   isActive ? "border-b-2 border-blue-900" : ""
                 }
@@ -42,7 +42,7 @@ const NavBar = () => {
                 Login
               </NavLink>
               <NavLink
-                to={"/signup"}
+                to={"/auth/signup"}
                 className={({ isActive }) =>
                   isActive ? "border-b-2 border-blue-900" : ""
                 }
@@ -71,7 +71,7 @@ const NavBar = () => {
                     ))}
                     <DropdownMenuItem>
                       <NavLink
-                        to={"/login"}
+                        to={"/auth/login"}
                         className={({ isActive }) =>
                           isActive ? "border-b-2 border-blue-900" : ""
                         }
@@ -81,7 +81,7 @@ const NavBar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                       <NavLink
-                        to={"/signup"}
+                        to={"/auth/signup"}
                         className={({ isActive }) =>
                           isActive ? "border-b-2 border-blue-900" : ""
                         }
