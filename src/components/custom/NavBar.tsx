@@ -9,8 +9,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import { NAV_LINKS } from "@/constants/navLinks.constant";
+import { Button } from "@/components/ui/button";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { toast } from "sonner";
 
 const NavBar = () => {
+  const user = useAppSelector(useCurrentUser);
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("Logout successfully");
+  };
+
   return (
     <div className="bg-white py-3 lg:py-4 border-b shadow-md">
       <Container>
@@ -21,6 +33,7 @@ const NavBar = () => {
             </h3>
           </Link>
           <div className="flex items-center gap-5">
+            {/* navbar for large devices */}
             <div className="hidden md:block space-x-5">
               {NAV_LINKS.map((navLink) => (
                 <NavLink
@@ -33,23 +46,35 @@ const NavBar = () => {
                   {navLink.page}
                 </NavLink>
               ))}
-              <NavLink
-                to={"/auth/login"}
-                className={({ isActive }) =>
-                  isActive ? "border-b-2 border-blue-900" : ""
-                }
-              >
-                Login
-              </NavLink>
-              <NavLink
-                to={"/auth/signup"}
-                className={({ isActive }) =>
-                  isActive ? "border-b-2 border-blue-900" : ""
-                }
-              >
-                Sign Up
-              </NavLink>
+
+              {/* user register/login or logout option for large devices */}
+              {user ? (
+                <Button onClick={handleLogout} variant={"destructive"}>
+                  Logout
+                </Button>
+              ) : (
+                <>
+                  <NavLink
+                    to={"/auth/login"}
+                    className={({ isActive }) =>
+                      isActive ? "border-b-2 border-blue-900" : ""
+                    }
+                  >
+                    Login
+                  </NavLink>
+                  <NavLink
+                    to={"/auth/signup"}
+                    className={({ isActive }) =>
+                      isActive ? "border-b-2 border-blue-900" : ""
+                    }
+                  >
+                    Sign Up
+                  </NavLink>
+                </>
+              )}
             </div>
+
+            {/* navbar for small devices */}
             <div className="md:hidden">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -69,26 +94,38 @@ const NavBar = () => {
                         </NavLink>
                       </DropdownMenuItem>
                     ))}
-                    <DropdownMenuItem>
-                      <NavLink
-                        to={"/auth/login"}
-                        className={({ isActive }) =>
-                          isActive ? "border-b-2 border-blue-900" : ""
-                        }
-                      >
-                        Login
-                      </NavLink>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <NavLink
-                        to={"/auth/signup"}
-                        className={({ isActive }) =>
-                          isActive ? "border-b-2 border-blue-900" : ""
-                        }
-                      >
-                        Sign Up
-                      </NavLink>
-                    </DropdownMenuItem>
+
+                    {/* user register/login or logout option for small devices */}
+                    {user ? (
+                      <DropdownMenuItem>
+                        <Button onClick={handleLogout} variant={"destructive"}>
+                          Logout
+                        </Button>{" "}
+                      </DropdownMenuItem>
+                    ) : (
+                      <>
+                        <DropdownMenuItem>
+                          <NavLink
+                            to={"/auth/login"}
+                            className={({ isActive }) =>
+                              isActive ? "border-b-2 border-blue-900" : ""
+                            }
+                          >
+                            Login
+                          </NavLink>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <NavLink
+                            to={"/auth/signup"}
+                            className={({ isActive }) =>
+                              isActive ? "border-b-2 border-blue-900" : ""
+                            }
+                          >
+                            Sign Up
+                          </NavLink>
+                        </DropdownMenuItem>
+                      </>
+                    )}
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>

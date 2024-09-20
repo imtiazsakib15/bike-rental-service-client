@@ -18,28 +18,28 @@ import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
+import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const form = useForm<z.infer<typeof FORM_SCHEMA>>({
     resolver: zodResolver(FORM_SCHEMA),
     defaultValues: { email: "", password: "" },
   });
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
 
   const onSubmit = async (data: z.infer<typeof FORM_SCHEMA>) => {
-    const toastId = toast.loading("Loading");
     try {
       const result = await login(data).unwrap();
       if (result?.success) {
-        toast.success(result.message || "Login successfully", { id: toastId });
         const user = { email: result.data.email, role: result.data.role };
 
         dispatch(setUser({ user, token: result.token }));
+        toast.success(result.message || "Login successfully");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error?.data?.message || "An error occured", { id: toastId });
+      toast.error(error?.data?.message || "An error occured");
     }
   };
 
@@ -81,7 +81,15 @@ const Login = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+
+            {isLoading ? (
+              <Button disabled>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </Button>
+            ) : (
+              <Button type="submit">Login</Button>
+            )}
           </form>
         </Form>
       </div>
