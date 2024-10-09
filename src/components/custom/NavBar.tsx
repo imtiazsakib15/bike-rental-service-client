@@ -11,11 +11,11 @@ import { MenuIcon } from "lucide-react";
 import { NAV_LINKS } from "@/constants/navLinks.constant";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { logout, useCurrentUser } from "@/redux/features/auth/authSlice";
+import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
 
 const NavBar = () => {
-  const user = useAppSelector(useCurrentUser);
+  const user = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {

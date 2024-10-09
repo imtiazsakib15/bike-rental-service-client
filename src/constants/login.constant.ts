@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const FORM_SCHEMA = z.object({
+export const LOGIN_FORM_SCHEMA = z.object({
   email: z
     .string()
     .email({ message: "Please provide a valid email address" })
@@ -8,5 +8,5 @@ export const FORM_SCHEMA = z.object({
     .toLowerCase(),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters long" }),
+    .min(6, { message: "Password must be at least 6 characters long" }),
 });
