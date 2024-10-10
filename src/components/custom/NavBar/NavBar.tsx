@@ -1,5 +1,5 @@
-import { Link, NavLink } from "react-router-dom";
-import Container from "./Container";
+import { Link } from "react-router-dom";
+import Container from "../Container";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { toast } from "sonner";
+import NavBarLink from "./NavBarLink";
 
 const NavBar = () => {
   const user = useAppSelector(selectCurrentUser);
@@ -36,15 +37,9 @@ const NavBar = () => {
             {/* navbar for large devices */}
             <div className="hidden md:block space-x-5">
               {NAV_LINKS.map((navLink) => (
-                <NavLink
-                  key={navLink.path}
-                  to={navLink.path}
-                  className={({ isActive }) =>
-                    isActive ? "border-b-2 border-blue-900" : ""
-                  }
-                >
+                <NavBarLink key={navLink.path} to={navLink.path}>
                   {navLink.page}
-                </NavLink>
+                </NavBarLink>
               ))}
 
               {/* user register/login or logout option for large devices */}
@@ -54,22 +49,8 @@ const NavBar = () => {
                 </Button>
               ) : (
                 <>
-                  <NavLink
-                    to={"/auth/login"}
-                    className={({ isActive }) =>
-                      isActive ? "border-b-2 border-blue-900" : ""
-                    }
-                  >
-                    Login
-                  </NavLink>
-                  <NavLink
-                    to={"/auth/signup"}
-                    className={({ isActive }) =>
-                      isActive ? "border-b-2 border-blue-900" : ""
-                    }
-                  >
-                    Sign Up
-                  </NavLink>
+                  <NavBarLink to={"/auth/login"}>Login</NavBarLink>
+                  <NavBarLink to={"/auth/signup"}>Sign Up</NavBarLink>
                 </>
               )}
             </div>
@@ -84,14 +65,9 @@ const NavBar = () => {
                   <DropdownMenuGroup>
                     {NAV_LINKS.map((navLink) => (
                       <DropdownMenuItem key={navLink.path}>
-                        <NavLink
-                          to={navLink.path}
-                          className={({ isActive }) =>
-                            isActive ? "border-b-2 border-blue-900" : ""
-                          }
-                        >
+                        <NavBarLink to={navLink.path}>
                           {navLink.page}
-                        </NavLink>
+                        </NavBarLink>
                       </DropdownMenuItem>
                     ))}
 
@@ -105,24 +81,10 @@ const NavBar = () => {
                     ) : (
                       <>
                         <DropdownMenuItem>
-                          <NavLink
-                            to={"/auth/login"}
-                            className={({ isActive }) =>
-                              isActive ? "border-b-2 border-blue-900" : ""
-                            }
-                          >
-                            Login
-                          </NavLink>
+                          <NavBarLink to={"/auth/login"}>Login</NavBarLink>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
-                          <NavLink
-                            to={"/auth/signup"}
-                            className={({ isActive }) =>
-                              isActive ? "border-b-2 border-blue-900" : ""
-                            }
-                          >
-                            Sign Up
-                          </NavLink>
+                          <NavBarLink to={"/auth/signup"}>Sign Up</NavBarLink>
                         </DropdownMenuItem>
                       </>
                     )}
