@@ -36,6 +36,7 @@ const Login = () => {
 
         dispatch(setUser({ user, token: result.token }));
         toast.success(result.message || "Login successfully");
+        form.reset();
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

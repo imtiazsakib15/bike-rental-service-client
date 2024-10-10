@@ -23,7 +23,13 @@ import { SIGN_UP_FORM_SCHEMA } from "@/constants/signUp.constant";
 const SignUp = () => {
   const form = useForm<z.infer<typeof SIGN_UP_FORM_SCHEMA>>({
     resolver: zodResolver(SIGN_UP_FORM_SCHEMA),
-    defaultValues: { email: "", password: "" },
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+      address: "",
+    },
   });
   const [signup, { isLoading }] = useSignupMutation();
   const dispatch = useAppDispatch();
@@ -36,6 +42,7 @@ const SignUp = () => {
 
         dispatch(setUser({ user, token: result.token }));
         toast.success(result.message || "Sign up successfully");
+        form.reset();
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

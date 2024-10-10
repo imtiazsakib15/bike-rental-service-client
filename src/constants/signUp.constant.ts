@@ -14,6 +14,12 @@ export const SIGN_UP_FORM_SCHEMA = z.object({
     .min(6, { message: "Password must be at least 6 characters long" }),
   phone: z
     .string()
-    .min(10, { message: "Phone number must be at least 10 digits long" }),
-  address: z.string(),
+    .regex(/^\+?\d{10,15}$/, {
+      message: "Phone number must be a valid number between 10 to 15 digits",
+    })
+    .trim(),
+  address: z
+    .string()
+    .min(5, { message: "Address must be at least 5 characters long" })
+    .trim(),
 });
