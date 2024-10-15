@@ -17,7 +17,7 @@ const ContactInfo = () => {
             <address className="sm:text-lg text-gray-600 pt-2">
               <p>Phone: 222-333-4444</p>
               <p>Toll-Free: 444-555-6666</p>
-              <p>Fax: 666-777-8888</p>
+              <p>Email: admin@rideeasy.com</p>
             </address>
           </div>
 
