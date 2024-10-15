@@ -2,7 +2,7 @@ import Container from "./../Container";
 
 const MissionAndVision = () => {
   return (
-    <div className="bg-[url('')] bg-cover bg-fixed text-white">
+    <div className="bg-[url('@/assets/images/bike-bg.jpg')] bg-cover bg-fixed text-white">
       <div className="bg-[#1a2a64] bg-opacity-80 size-full">
         <Container>
           <div className="flex flex-col md:flex-row gap-14 text-center py-16 sm:py-18 lg:py-20">
