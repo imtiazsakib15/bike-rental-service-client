@@ -18,7 +18,7 @@ const HistoryAndMilestones = () => {
             className="vertical-timeline-element--work"
             contentStyle={{ background: "rgb(40, 150, 200)" }}
             contentArrowStyle={{ borderRight: "7px solid  rgb(40, 150, 200)" }}
-            date="2019"
+            date="2021"
             iconStyle={{ background: "rgb(40, 150, 200)", color: "#fff" }}
             icon={<WorkflowIcon />}
           >
@@ -33,7 +33,7 @@ const HistoryAndMilestones = () => {
             className="vertical-timeline-element--work"
             contentStyle={{ background: "rgb(40, 150, 200)" }}
             contentArrowStyle={{ borderRight: "7px solid  rgb(40, 150, 200)" }}
-            date="2020"
+            date="2022"
             iconStyle={{ background: "rgb(40, 150, 200)", color: "#fff" }}
             icon={<WorkflowIcon />}
           >
@@ -47,7 +47,7 @@ const HistoryAndMilestones = () => {
             className="vertical-timeline-element--work"
             contentStyle={{ background: "rgb(40, 150, 200)" }}
             contentArrowStyle={{ borderRight: "7px solid  rgb(40, 150, 200)" }}
-            date="2021"
+            date="2023"
             iconStyle={{ background: "rgb(40, 150, 200)", color: "#fff" }}
             icon={<WorkflowIcon />}
           >
@@ -62,23 +62,23 @@ const HistoryAndMilestones = () => {
             className="vertical-timeline-element--work"
             contentStyle={{ background: "rgb(40, 150, 200)" }}
             contentArrowStyle={{ borderRight: "7px solid  rgb(40, 150, 200)" }}
-            date="2022"
+            date="2024"
             iconStyle={{ background: "rgb(40, 150, 200)", color: "#fff" }}
             icon={<WorkflowIcon />}
           >
             <p className="text-white">
               We partnered with local businesses and city governments,
               increasing our bike stations and growing our fleet to serve more
-              people across [City Name] and beyond. Our commitment to reducing
-              urban carbon footprints gained recognition, and we were awarded
-              for our contribution to sustainable transport.
+              people across Dhaka and beyond. Our commitment to reducing urban
+              carbon footprints gained recognition, and we were awarded for our
+              contribution to sustainable transport.
             </p>
           </VerticalTimelineElement>
           <VerticalTimelineElement
             className="vertical-timeline-element--work"
             contentStyle={{ background: "rgb(40, 150, 200)" }}
             contentArrowStyle={{ borderRight: "7px solid  rgb(40, 150, 200)" }}
-            date="2023"
+            date="2025"
             iconStyle={{ background: "rgb(40, 150, 200)", color: "#fff" }}
             icon={<WorkflowIcon />}
           >
