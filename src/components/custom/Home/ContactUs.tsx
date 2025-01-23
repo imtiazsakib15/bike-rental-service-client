@@ -1,21 +1,14 @@
 import Lottie from "lottie-react";
 import contact from "@/assets/contact.json";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CONTACT_US_FORM_SCHEMA } from "@/constants/contactUs.constant";
 import { toast } from "sonner";
+import InputField from "../FormFields/InputField";
+import TextareaField from "../FormFields/TextareaField";
 
 const ContactUs = () => {
   const form = useForm<z.infer<typeof CONTACT_US_FORM_SCHEMA>>({
@@ -43,45 +36,12 @@ const ContactUs = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="sm:w-2/3 space-y-6 mx-auto"
             >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
+              <InputField control={form.control} name="name" label="Name" />
+              <InputField control={form.control} name="email" label="Email" />
+              <TextareaField
                 control={form.control}
                 name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Message</FormLabel>
-                    <FormControl>
-                      <Textarea {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Message"
               />
 
               <Button type="submit">Sent</Button>
