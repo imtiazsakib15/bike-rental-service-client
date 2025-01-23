@@ -3,15 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import Container from "@/components/custom/Container";
 import { useSignupMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
@@ -19,6 +11,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { Loader2 } from "lucide-react";
 import { SIGN_UP_FORM_SCHEMA } from "@/constants/signUp.constant";
+import InputField from "@/components/custom/FormFields/InputField";
 
 const SignUp = () => {
   const form = useForm<z.infer<typeof SIGN_UP_FORM_SCHEMA>>({
@@ -62,75 +55,23 @@ const SignUp = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="sm:w-2/3 space-y-6 mx-auto"
           >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
+            <InputField control={form.control} name="name" label="Name" />
+            <InputField control={form.control} name="email" label="Email" />
+            <InputField
               control={form.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Password"
+              type="password"
             />
 
-            <FormField
+            <InputField
               control={form.control}
               name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone No</FormLabel>
-                  <FormControl>
-                    <Input type="tel" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Phone No"
+              type="tel"
             />
 
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <InputField control={form.control} name="address" label="Address" />
 
             {isLoading ? (
               <Button disabled>
