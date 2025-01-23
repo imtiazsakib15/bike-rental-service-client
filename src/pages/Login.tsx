@@ -3,15 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import Container from "@/components/custom/Container";
 import { LOGIN_FORM_SCHEMA } from "@/constants/login.constant";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
@@ -19,6 +11,7 @@ import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { Loader2 } from "lucide-react";
+import InputField from "@/components/custom/FormFields/InputField";
 
 const Login = () => {
   const form = useForm<z.infer<typeof LOGIN_FORM_SCHEMA>>({
@@ -55,32 +48,13 @@ const Login = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="sm:w-2/3 space-y-6 mx-auto"
           >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <InputField control={form.control} name="email" label="Email" />
 
-            <FormField
+            <InputField
               control={form.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Password"
+              type="password"
             />
 
             {isLoading ? (

@@ -12,12 +12,14 @@ export type InputFieldProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label: string;
+  type?: "text" | "password" | "email" | "number";
 };
 
 const InputField = <T extends FieldValues>({
   control,
   name,
   label,
+  type = "text",
 }: InputFieldProps<T>) => {
   return (
     <FormField
@@ -27,7 +29,7 @@ const InputField = <T extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} />
+            <Input {...field} type={type} />
           </FormControl>
           <FormMessage />
         </FormItem>
