@@ -4,7 +4,7 @@ import { TBike } from "@/types";
 import { Link } from "react-router-dom";
 
 const FeaturedBikes = () => {
-  const { data } = useGetAllBikesQuery(undefined);
+  const { data } = useGetAllBikesQuery({ limit: "6" });
 
   const bikes = data?.data;
 
@@ -22,7 +22,7 @@ const FeaturedBikes = () => {
                 className="max-w-sm mx-auto bg-white rounded-lg shadow-lg overflow-hidden"
               >
                 <img
-                  className="w-full h-56 hover:scale-95 transition-transform object-cover"
+                  className="w-full h-56 hover:scale-105 transition-transform object-cover"
                   src={bike.image}
                   alt={bike.name}
                 />
