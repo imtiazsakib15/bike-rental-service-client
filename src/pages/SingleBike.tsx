@@ -1,22 +1,23 @@
-import SingleBikeSceleton from "@/components/custom/SingleBike/SingleBikeSceleton";
+import SingleBikeSkeleton from "@/components/custom/SingleBike/SingleBikeSkeleton";
 import { useGetABikeQuery } from "@/redux/features/bike/bikeApi";
 import { useParams } from "react-router-dom";
 
 const SingleBike = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { data, isLoading } = useGetABikeQuery(id as string);
+  const { data, isLoading, error } = useGetABikeQuery(id as string);
   const bike = data?.data;
-  console.log(bike, isLoading);
-  if (bike)
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <SingleBikeSceleton />
-      </div>
-    );
-  if (bike)
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  console.log(bike, isLoading, error);
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {isLoading && <SingleBikeSkeleton />}
+      {error && (
+        <p className="text-red-500 text-lg font-semibold h-[50vh] grid place-items-center">
+          Something went wrong!
+        </p>
+      )}
+      {bike && (
         <div className="flex flex-col md:flex-row gap-8">
           {/* Bike Image */}
           <div className="md:w-1/2">
@@ -86,8 +87,9 @@ const SingleBike = () => {
             </button>
           </div>
         </div>
-      </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default SingleBike;
