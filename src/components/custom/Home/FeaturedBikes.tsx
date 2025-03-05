@@ -64,7 +64,7 @@ const FeaturedBikes = () => {
                   <div className="mt-4">
                     <Link
                       to={`/bikes/${bike._id}`}
-                      className="block text-center w-full bg-blue-950 text-white py-2 px-4 rounded hover:bg-blue-900"
+                      className="block text-center font-medium w-full bg-blue-950 text-white py-2 px-4 rounded-md hover:bg-blue-900"
                     >
                       View Details
                     </Link>
