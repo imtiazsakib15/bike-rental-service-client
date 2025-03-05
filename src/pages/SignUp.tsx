@@ -12,6 +12,8 @@ import { setUser } from "@/redux/features/auth/authSlice";
 import { Loader2 } from "lucide-react";
 import { SIGN_UP_FORM_SCHEMA } from "@/constants/signUp.constant";
 import InputField from "@/components/custom/FormFields/InputField";
+import { useNavigate } from "react-router-dom";
+import signUp from "@/assets/svg/sign-up.svg";
 
 const SignUp = () => {
   const form = useForm<z.infer<typeof SIGN_UP_FORM_SCHEMA>>({
@@ -26,6 +28,7 @@ const SignUp = () => {
   });
   const [signup, { isLoading }] = useSignupMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: z.infer<typeof SIGN_UP_FORM_SCHEMA>) => {
     try {
@@ -35,12 +38,13 @@ const SignUp = () => {
 
         dispatch(setUser({ user, token: result.token }));
         toast.success(result.message || "Sign up successfully");
+        navigate("/");
         form.reset();
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
-      toast.error(error?.data?.message || "An error occured");
+      toast.error(error?.data?.message || "An error occurred");
     }
   };
 
@@ -50,39 +54,48 @@ const SignUp = () => {
         <h1 className="font-bold text-3xl sm:text-4xl lg:text-5xl text-center">
           Sign Up Now
         </h1>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="sm:w-2/3 space-y-6 mx-auto"
-          >
-            <InputField control={form.control} name="name" label="Name" />
-            <InputField control={form.control} name="email" label="Email" />
-            <InputField
-              control={form.control}
-              name="password"
-              label="Password"
-              type="password"
-            />
+        <div className="md:grid md:grid-cols-2 md:gap-6 md:items-center mt-5">
+          <img className="hidden md:block" src={signUp} alt="Sign Up" />
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="w-full space-y-6 mx-auto"
+            >
+              <InputField control={form.control} name="name" label="Name" />
+              <InputField control={form.control} name="email" label="Email" />
+              <InputField
+                control={form.control}
+                name="password"
+                label="Password"
+                type="password"
+              />
 
-            <InputField
-              control={form.control}
-              name="phone"
-              label="Phone No"
-              type="tel"
-            />
+              <div className="grid lg:grid-cols-2 gap-6">
+                <InputField
+                  control={form.control}
+                  name="phone"
+                  label="Phone No"
+                  type="tel"
+                />
 
-            <InputField control={form.control} name="address" label="Address" />
+                <InputField
+                  control={form.control}
+                  name="address"
+                  label="Address"
+                />
+              </div>
 
-            {isLoading ? (
-              <Button disabled>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
-              </Button>
-            ) : (
-              <Button type="submit">Sign Up</Button>
-            )}
-          </form>
-        </Form>
+              {isLoading ? (
+                <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </Button>
+              ) : (
+                <Button type="submit">Sign Up</Button>
+              )}
+            </form>
+          </Form>
+        </div>
       </div>
     </Container>
   );
