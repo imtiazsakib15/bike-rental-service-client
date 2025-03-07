@@ -13,7 +13,7 @@ import { Loader2 } from "lucide-react";
 import { SIGN_UP_FORM_SCHEMA } from "@/constants/signUp.constant";
 import InputField from "@/components/custom/FormFields/InputField";
 import { useNavigate } from "react-router-dom";
-import signUp from "@/assets/svg/sign-up.svg";
+import signUpImage from "@/assets/svg/sign-up.svg";
 
 const SignUp = () => {
   const form = useForm<z.infer<typeof SIGN_UP_FORM_SCHEMA>>({
@@ -55,7 +55,7 @@ const SignUp = () => {
           Sign Up Now
         </h1>
         <div className="md:grid md:grid-cols-2 md:gap-6 md:items-center mt-5">
-          <img className="hidden md:block" src={signUp} alt="Sign Up" />
+          <img className="hidden md:block" src={signUpImage} alt="Sign Up" />
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}

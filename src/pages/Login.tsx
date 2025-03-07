@@ -12,6 +12,8 @@ import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { Loader2 } from "lucide-react";
 import InputField from "@/components/custom/FormFields/InputField";
+import { useNavigate } from "react-router-dom";
+import loginImage from "@/assets/svg/login.svg";
 
 const Login = () => {
   const form = useForm<z.infer<typeof LOGIN_FORM_SCHEMA>>({
@@ -20,6 +22,7 @@ const Login = () => {
   });
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: z.infer<typeof LOGIN_FORM_SCHEMA>) => {
     try {
@@ -29,11 +32,15 @@ const Login = () => {
 
         dispatch(setUser({ user, token: result.token }));
         toast.success(result.message || "Login successfully");
+
+        if (user.role === "admin") navigate("/dashboard");
+        else navigate("/");
+
         form.reset();
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error?.data?.message || "An error occured");
+      toast.error(error?.data?.message || "An error occurred");
     }
   };
 
@@ -43,30 +50,42 @@ const Login = () => {
         <h1 className="font-bold text-3xl sm:text-4xl lg:text-5xl text-center">
           Login Now
         </h1>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="sm:w-2/3 space-y-6 mx-auto"
-          >
-            <InputField control={form.control} name="email" label="Email" />
 
-            <InputField
-              control={form.control}
-              name="password"
-              label="Password"
-              type="password"
-            />
+        <div className="md:grid md:grid-cols-2 md:gap-6 md:items-center mt-5">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="sm:w-2/3 space-y-6 mx-auto"
+            >
+              <div className="flex justify-end gap-2 pt-5 text-white text-xs sm:text-sm font-medium">
+                <button className="bg-blue-900 px-3 py-2 rounded-full">
+                  Autofill Admin credentials
+                </button>
+                <button className="bg-blue-900 px-3 py-2 rounded-full">
+                  Autofill User credentials
+                </button>
+              </div>
+              <InputField control={form.control} name="email" label="Email" />
 
-            {isLoading ? (
-              <Button disabled>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
-              </Button>
-            ) : (
-              <Button type="submit">Login</Button>
-            )}
-          </form>
-        </Form>
+              <InputField
+                control={form.control}
+                name="password"
+                label="Password"
+                type="password"
+              />
+
+              {isLoading ? (
+                <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </Button>
+              ) : (
+                <Button type="submit">Login</Button>
+              )}
+            </form>
+          </Form>
+          <img className="hidden md:block" src={loginImage} alt="Login" />
+        </div>
       </div>
     </Container>
   );
