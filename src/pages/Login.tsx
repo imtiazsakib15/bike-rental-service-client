@@ -14,6 +14,11 @@ import { Loader2 } from "lucide-react";
 import InputField from "@/components/custom/FormFields/InputField";
 import { useNavigate } from "react-router-dom";
 import loginImage from "@/assets/svg/login.svg";
+import {
+  adminCredentials,
+  TCredentials,
+  userCredentials,
+} from "@/constants/loginCredentials.constants";
 
 const Login = () => {
   const form = useForm<z.infer<typeof LOGIN_FORM_SCHEMA>>({
@@ -44,6 +49,11 @@ const Login = () => {
     }
   };
 
+  const handleAutofillCredentials = (credentials: TCredentials) => {
+    form.setValue("email", credentials.email);
+    form.setValue("password", credentials.password);
+  };
+
   return (
     <Container>
       <div className="py-6 sm:py-8 lg:py-12">
@@ -53,16 +63,19 @@ const Login = () => {
 
         <div className="md:grid md:grid-cols-2 md:gap-6 md:items-center mt-5">
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="sm:w-2/3 space-y-6 mx-auto"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="flex justify-end gap-2 pt-5 text-white text-xs sm:text-sm font-medium">
-                <button className="bg-blue-900 px-3 py-2 rounded-full">
-                  Autofill Admin credentials
+                <button
+                  onClick={() => handleAutofillCredentials(adminCredentials)}
+                  className="bg-blue-900 px-3 py-2 rounded-full"
+                >
+                  Admin credentials
                 </button>
-                <button className="bg-blue-900 px-3 py-2 rounded-full">
-                  Autofill User credentials
+                <button
+                  onClick={() => handleAutofillCredentials(userCredentials)}
+                  className="bg-blue-900 px-3 py-2 rounded-full"
+                >
+                  User credentials
                 </button>
               </div>
               <InputField control={form.control} name="email" label="Email" />
@@ -84,6 +97,8 @@ const Login = () => {
               )}
             </form>
           </Form>
+
+          {/* Login Image */}
           <img className="hidden md:block" src={loginImage} alt="Login" />
         </div>
       </div>
