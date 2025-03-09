@@ -1,5 +1,6 @@
 import MainLayout from "@/layout/MainLayout";
 import AboutUs from "@/pages/AboutUs";
+import AllBikes from "@/pages/AllBikes";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/NotFound";
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "/about-us",
         element: <AboutUs />,
+      },
+      {
+        path: "/all-bikes",
+        element: <AllBikes />,
       },
       {
         path: "/bikes/:id",
