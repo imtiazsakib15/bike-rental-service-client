@@ -44,9 +44,12 @@ const NavBar = () => {
 
               {/* user register/login or logout option for large devices */}
               {user ? (
-                <Button onClick={handleLogout} variant={"destructive"}>
-                  Logout
-                </Button>
+                <>
+                  <NavBarLink to={"/dashboard"}>Dashboard</NavBarLink>
+                  <Button onClick={handleLogout} variant={"destructive"}>
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <>
                   <NavBarLink to={"/auth/login"}>Login</NavBarLink>
@@ -73,11 +76,19 @@ const NavBar = () => {
 
                     {/* user register/login or logout option for small devices */}
                     {user ? (
-                      <DropdownMenuItem>
-                        <Button onClick={handleLogout} variant={"destructive"}>
-                          Logout
-                        </Button>{" "}
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuItem>
+                          <NavBarLink to={"/dashboard"}>Dashboard</NavBarLink>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Button
+                            onClick={handleLogout}
+                            variant={"destructive"}
+                          >
+                            Logout
+                          </Button>{" "}
+                        </DropdownMenuItem>
+                      </>
                     ) : (
                       <>
                         <DropdownMenuItem>
