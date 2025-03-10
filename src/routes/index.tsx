@@ -1,6 +1,9 @@
+import DashboardLayout from "@/layout/DashboardLayout";
 import MainLayout from "@/layout/MainLayout";
 import AboutUs from "@/pages/AboutUs";
 import AllBikes from "@/pages/AllBikes";
+import AddBike from "@/pages/Dashboard/AddBike";
+import Dashboard from "@/pages/Dashboard/Dashboard";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/NotFound";
@@ -39,5 +42,11 @@ export const router = createBrowserRouter([
         element: <SingleBike />,
       },
     ],
+  },
+  {
+    path: "dashboard",
+    element: <DashboardLayout />,
+    errorElement: <NotFound />,
+    children: [],
   },
 ]);
