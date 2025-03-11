@@ -2,7 +2,7 @@ import DashboardLayout from "@/layout/DashboardLayout";
 import MainLayout from "@/layout/MainLayout";
 import AboutUs from "@/pages/AboutUs";
 import AllBikes from "@/pages/AllBikes";
-import AddBike from "@/pages/Dashboard/AddBike";
+import BikesPage from "@/pages/Dashboard/BikesPage";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
@@ -51,6 +51,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "bikes",
+        element: <BikesPage />,
       },
     ],
   },
