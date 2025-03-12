@@ -10,8 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Bike, Filter, SortAsc } from "lucide-react";
-import { AddBikeDialog } from "./AddBikeDialog";
-import { BikeCard } from "../../components/custom/Dashboard/Bikes/BikeCard";
+import { AddBikeDialog } from "@/components/custom/Dashboard/Bikes/AddBikeDialog";
+import { BikeCard } from "@/components/custom/Dashboard/Bikes/BikeCard";
 import { TBike } from "@/types";
 
 const BikesPage = () => {

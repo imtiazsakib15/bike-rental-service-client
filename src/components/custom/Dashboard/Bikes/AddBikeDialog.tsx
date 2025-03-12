@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Bike } from "lucide-react";
+import { AddBikeForm } from "./AddBikeForm";
 
 export function AddBikeDialog() {
   return (
@@ -21,6 +22,7 @@ export function AddBikeDialog() {
         <DialogHeader>
           <DialogTitle>Add New Bike to Inventory</DialogTitle>
         </DialogHeader>
+        <AddBikeForm />
       </DialogContent>
     </Dialog>
   );

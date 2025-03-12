@@ -13,6 +13,7 @@ const TextareaField = <T extends FieldValues>({
   control,
   name,
   label,
+  placeholder = "",
 }: InputFieldProps<T>) => {
   return (
     <FormField
@@ -22,7 +23,7 @@ const TextareaField = <T extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Textarea {...field} />
+            <Textarea placeholder={placeholder} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

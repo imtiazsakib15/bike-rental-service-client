@@ -13,6 +13,7 @@ export type InputFieldProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   type?: "text" | "password" | "email" | "number" | "tel";
+  placeholder?: string;
 };
 
 const InputField = <T extends FieldValues>({
@@ -20,6 +21,7 @@ const InputField = <T extends FieldValues>({
   name,
   label,
   type = "text",
+  placeholder = "",
 }: InputFieldProps<T>) => {
   return (
     <FormField
@@ -29,7 +31,7 @@ const InputField = <T extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} type={type} />
+            <Input placeholder={placeholder} {...field} type={type} />
           </FormControl>
           <FormMessage />
         </FormItem>

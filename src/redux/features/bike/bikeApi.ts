@@ -35,7 +35,7 @@ const bikeApi = baseApi.injectEndpoints({
         url: `/bikes/${id}`,
         method: "GET",
       }),
-      providesTags: (result, error, id) => [{ type: "Bikes", id }],
+      providesTags: ["Bikes"],
     }),
 
     getTotalBikeNumber: builder.query({
@@ -44,6 +44,15 @@ const bikeApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    addBike: builder.mutation<BikeResponse, Partial<TBike>>({
+      query: (bike) => ({
+        url: "/bikes",
+        method: "POST",
+        body: bike,
+      }),
+      invalidatesTags: ["Bikes"],
+    }),
   }),
 });
 
@@ -51,4 +60,5 @@ export const {
   useGetAllBikesQuery,
   useGetABikeQuery,
   useGetTotalBikeNumberQuery,
+  useAddBikeMutation,
 } = bikeApi;
