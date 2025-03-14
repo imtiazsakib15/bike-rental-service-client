@@ -1,4 +1,4 @@
 export type TAuthState = {
-  user: object | null;
+  user: { email: string; role: string } | null;
   token: string | null;
 };

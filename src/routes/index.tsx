@@ -4,6 +4,7 @@ import AboutUs from "@/pages/AboutUs";
 import AllBikes from "@/pages/AllBikes";
 import BikesPage from "@/pages/Dashboard/BikesPage";
 import Dashboard from "@/pages/Dashboard/Dashboard";
+import Users from "@/pages/Dashboard/Users";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/NotFound";
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "bikes",
         element: <BikesPage />,
+      },
+      {
+        path: "users",
+        element: <Users />,
       },
     ],
   },
