@@ -1,37 +1,18 @@
 import { useState } from "react";
-import {
-  LayoutDashboard,
-  Bike,
-  Users,
-  DollarSign,
-  Settings,
-  Menu,
-  X,
-} from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, Outlet } from "react-router-dom";
+import {
+  ADMIN_SIDEBAR_ITEMS,
+  USER_SIDEBAR_ITEMS,
+} from "@/constants/sidebarItems.constant";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeNav, setActiveNav] = useState("dashboard");
-
-  const navItems = [
-    {
-      id: "dashboard",
-      label: "Dashboard",
-      route: "/dashboard",
-      icon: LayoutDashboard,
-    },
-    {
-      id: "add-bike",
-      label: "Add Bike",
-      route: "/dashboard/add-bike",
-      icon: Bike,
-    },
-    { id: "users", label: "Users", icon: Users },
-    { id: "finance", label: "Finance", icon: DollarSign },
-    { id: "settings", label: "Settings", icon: Settings },
-  ];
+  const user = useAppSelector(selectCurrentUser);
 
   return (
     <div className="flex h-screen bg-background">
@@ -39,7 +20,7 @@ const DashboardLayout = () => {
       <aside
         className={`${
           isSidebarOpen ? "w-64" : "w-0"
-        } lg:w-64 transition-all duration-300 fixed lg:relative h-full border-r`}
+        } lg:w-64 transition-all duration-300 fixed lg:relative h-full bg-white border-r`}
       >
         <div className="h-full overflow-y-auto">
           {/* Sidebar Header */}
@@ -61,15 +42,18 @@ const DashboardLayout = () => {
 
           {/* Navigation */}
           <nav className="p-2">
-            {navItems.map((item) => (
-              <Link to={item.route as string} key={item.id}>
+            {(user?.role === "admin"
+              ? ADMIN_SIDEBAR_ITEMS
+              : USER_SIDEBAR_ITEMS
+            ).map((item) => (
+              <Link to={item.route} key={item.id}>
                 <Button
                   key={item.id}
                   variant={activeNav === item.id ? "secondary" : "ghost"}
                   className="w-full justify-start mb-1"
                   onClick={() => setActiveNav(item.id)}
                 >
-                  <item.icon className="h-4 w-4 mr-2" />
+                  <item.icon className="size-4 mr-2" />
                   {item.label}
                 </Button>
               </Link>
