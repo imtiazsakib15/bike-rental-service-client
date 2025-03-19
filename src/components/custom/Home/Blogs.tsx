@@ -1,12 +1,12 @@
 import { BLOGS } from "@/constants/blogs.constant";
 import { Link } from "react-router-dom";
+import Title from "../shared/Title";
 
 const Blogs = () => {
   return (
     <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto pb-16">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl text-center leading-tight font-semibold">
-        Blogs
-      </h1>
+      <Title>Blogs</Title>
+
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
         {BLOGS.map((blog) => (
           <div

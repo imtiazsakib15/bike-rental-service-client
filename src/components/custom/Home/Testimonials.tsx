@@ -1,12 +1,12 @@
 import Container from "../Container";
+import Title from "../shared/Title";
 
 const Testimonials = () => {
   return (
     <div className="py-6 sm:py-8 md:py-10">
       <Container>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-center leading-tight font-bold">
-          Testimonials
-        </h1>
+        <Title>Testimonials</Title>
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
           <div className="flex h-auto border rounded-xl">
             <div className="flex flex-col bg-white rounded-xl">

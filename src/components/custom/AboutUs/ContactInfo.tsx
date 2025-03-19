@@ -1,13 +1,13 @@
 import { Clock, Locate, Phone } from "lucide-react";
 import Container from "./../Container";
+import Title from "../shared/Title";
 
 const ContactInfo = () => {
   return (
     <div className="py-6 sm:py-8 md:py-10">
       <Container>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-center leading-tight font-bold">
-          Contact Info
-        </h1>
+        <Title>Contact Info</Title>
+
         <div className="text-center grid sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-8">
           <div className="border rounded-lg p-8">
             <Phone className="mx-auto size-8 text-blue-900" />

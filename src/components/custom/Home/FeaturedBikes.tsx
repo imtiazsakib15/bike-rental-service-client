@@ -2,18 +2,18 @@ import { useGetAllBikesQuery } from "@/redux/features/bike/bikeApi";
 import Container from "../Container";
 import { TBike } from "@/types";
 import { Link } from "react-router-dom";
+import Title from "../shared/Title";
 
 const FeaturedBikes = () => {
   const { data } = useGetAllBikesQuery({ limit: "6" });
 
-  const bikes = data?.data;
+  const bikes = data?.data as TBike[];
 
   return (
     <Container>
       <div className="py-6 sm:py-8 md:py-10">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-center leading-tight font-bold">
-          Featured Bikes
-        </h1>
+        <Title>Featured Bikes</Title>
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
           {bikes &&
             bikes.map((bike: TBike) => (

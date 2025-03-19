@@ -9,6 +9,7 @@ import { CONTACT_US_FORM_SCHEMA } from "@/constants/contactUs.constant";
 import { toast } from "sonner";
 import InputField from "../FormFields/InputField";
 import TextareaField from "../FormFields/TextareaField";
+import Title from "../shared/Title";
 
 const ContactUs = () => {
   const form = useForm<z.infer<typeof CONTACT_US_FORM_SCHEMA>>({
@@ -23,9 +24,8 @@ const ContactUs = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-10 sm:pt-12 lg:pt-16">
-      <h1 className="text-3xl sm:text-4xl lg:text-5xl text-center leading-tight font-bold">
-        Contact Us
-      </h1>
+      <Title>Contact Us</Title>
+
       <div className="flex flex-col sm:flex-row sm:items-center gap-6">
         <div className="w-72 mx-auto sm:w-1/2">
           <Lottie animationData={contact} loop={false} />

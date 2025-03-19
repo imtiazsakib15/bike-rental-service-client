@@ -1,12 +1,12 @@
+import Title from "../shared/Title";
 import Container from "./../Container";
 
 const OurStory = () => {
   return (
     <div className="py-6 sm:py-8 md:py-10">
       <Container>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-center leading-tight font-bold">
-          Our Story
-        </h1>
+        <Title>Our Story</Title>
+
         <p className="text-lg lg:text-xl text-center sm:px-6 md:px-10 lg:px-16 pt-5">
           Welcome to <b>RideEasy</b>, where we’re transforming urban mobility
           through accessible, eco-friendly bike sharing. Our passion for cycling

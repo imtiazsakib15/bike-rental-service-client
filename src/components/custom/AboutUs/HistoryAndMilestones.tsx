@@ -5,14 +5,14 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import Container from "../Container";
+import Title from "../shared/Title";
 
 const HistoryAndMilestones = () => {
   return (
     <div className="overflow-x-hidden pb-6 sm:pb-8 md:pb-10">
       <Container>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl text-center leading-tight font-bold">
-          History & Milestones
-        </h1>
+        <Title>History & Milestones</Title>
+
         <VerticalTimeline>
           <VerticalTimelineElement
             className="vertical-timeline-element--work"

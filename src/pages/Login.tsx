@@ -19,6 +19,7 @@ import {
   TCredentials,
   userCredentials,
 } from "@/constants/loginCredentials.constants";
+import Title from "@/components/custom/shared/Title";
 
 const Login = () => {
   const form = useForm<z.infer<typeof LOGIN_FORM_SCHEMA>>({
@@ -57,9 +58,7 @@ const Login = () => {
   return (
     <Container>
       <div className="py-6 sm:py-8 lg:py-12">
-        <h1 className="font-bold text-3xl sm:text-4xl lg:text-5xl text-center">
-          Login Now
-        </h1>
+        <Title>Login Now</Title>
 
         <div className="md:grid md:grid-cols-2 md:gap-6 md:items-center mt-5">
           <Form {...form}>
