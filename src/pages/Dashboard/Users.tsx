@@ -10,22 +10,13 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  User,
-  Search,
-  MoreVertical,
-  Shield,
-  ShieldOff,
-  Trash2,
-  Edit,
-} from "lucide-react";
+import { User, MoreVertical, Shield, Trash2, Edit } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
@@ -38,27 +29,25 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import TableRowSkeleton from "@/components/custom/Dashboard/Users/TableRowSkeleton";
+import { TUser } from "@/types";
 
 const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedRole, setSelectedRole] = useState("all");
-  const [sortBy, setSortBy] = useState("createdAt-desc");
+  const [selectedRole, setSelectedRole] = useState("");
 
   const { data, isLoading, isError } = useGetAllUsersQuery({
-    search: searchTerm,
+    searchTerm,
     role: selectedRole,
-    sort: sortBy,
   });
 
-  const users = data?.data;
-  console.log(users);
-  // Mock delete handler - replace with actual API call
+  const users: TUser[] = data?.data;
+
   const handleDeleteUser = async (userId: string) => {
     console.log("Deleting user:", userId);
     // await deleteUser(userId).unwrap()
   };
 
-  // Mock role update handler
   const handleUpdateRole = async (userId: string, newRole: string) => {
     console.log("Updating role for:", userId, "to", newRole);
     // await updateUserRole({ userId, role: newRole }).unwrap()
@@ -66,7 +55,6 @@ const Users = () => {
 
   return (
     <div className="container mx-auto p-4 md:p-6">
-      {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2">
@@ -83,17 +71,16 @@ const Users = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="md:max-w-xs"
-            // startIcon={<Search className="h-4 w-4" />}
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 <Shield className="mr-2 h-4 w-4" />
-                {selectedRole === "all" ? "All Roles" : selectedRole}
+                {selectedRole === "" ? "All Roles" : selectedRole}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onSelect={() => setSelectedRole("all")}>
+              <DropdownMenuItem onSelect={() => setSelectedRole("")}>
                 All Roles
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setSelectedRole("user")}>
@@ -122,28 +109,13 @@ const Users = () => {
           </TableHeader>
           <TableBody>
             {isLoading ? (
-              [...Array(5)].map((_, i) => (
-                <TableRow key={i}>
-                  <TableCell>
-                    <Skeleton className="h-4 w-[150px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-[80px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-[120px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-[100px]" />
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Skeleton className="h-8 w-8 ml-auto" />
-                  </TableCell>
-                </TableRow>
-              ))
+              <>
+                <TableRowSkeleton />
+                <TableRowSkeleton />
+                <TableRowSkeleton />
+                <TableRowSkeleton />
+                <TableRowSkeleton />
+              </>
             ) : isError ? (
               <TableRow>
                 <TableCell
@@ -161,7 +133,7 @@ const Users = () => {
               </TableRow>
             ) : (
               users?.map((user) => (
-                <TableRow key={user.id}>
+                <TableRow key={user._id}>
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
                       <User className="h-5 w-5 text-muted-foreground" />
@@ -180,8 +152,10 @@ const Users = () => {
                     {new Date(user.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={user.isActive ? "default" : "destructive"}>
-                      {user.isActive ? "Active" : "Inactive"}
+                    <Badge variant="default">
+                      {/* variant={user.isActive ? "default" : "destructive"}> */}
+                      {/* {user.isActive ? "Active" : "Inactive"} */}
+                      Active
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
@@ -195,7 +169,7 @@ const Users = () => {
                         <DropdownMenuItem
                           onClick={() =>
                             handleUpdateRole(
-                              user.id,
+                              user._id,
                               user.role === "admin" ? "user" : "admin"
                             )
                           }
@@ -229,7 +203,7 @@ const Users = () => {
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
                               <AlertDialogAction
-                                onClick={() => handleDeleteUser(user.id)}
+                                onClick={() => handleDeleteUser(user._id)}
                                 className="bg-destructive hover:bg-destructive/90"
                               >
                                 Delete User
