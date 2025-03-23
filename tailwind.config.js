@@ -52,7 +52,7 @@ export default {
         },
       },
       backgroundImage: {
-        banner: "url('./src/assets/images/bike-banner-bg.jpg')",
+        banner: "url('/bike-banner-bg.jpg')",
       },
     },
   },
