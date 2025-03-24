@@ -1,3 +1,4 @@
+import AdminRoute from "@/components/custom/shared/AdminRoute";
 import PrivateRoute from "@/components/custom/shared/PrivateRoute";
 import DashboardLayout from "@/layout/DashboardLayout";
 import MainLayout from "@/layout/MainLayout";
@@ -60,11 +61,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "bikes",
-        element: <BikesPage />,
+        element: (
+          <AdminRoute>
+            <BikesPage />
+          </AdminRoute>
+        ),
       },
       {
         path: "users",
-        element: <Users />,
+        element: (
+          <AdminRoute>
+            <Users />
+          </AdminRoute>
+        ),
       },
     ],
   },
