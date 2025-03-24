@@ -1,3 +1,4 @@
+import PrivateRoute from "@/components/custom/shared/PrivateRoute";
 import DashboardLayout from "@/layout/DashboardLayout";
 import MainLayout from "@/layout/MainLayout";
 import AboutUs from "@/pages/AboutUs";
@@ -46,7 +47,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     errorElement: <NotFound />,
     children: [
       {
