@@ -4,15 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Bike, Edit, Trash2, Filter, SortAsc } from "lucide-react";
+import { AddBikeDialog } from "@/components/custom/Dashboard/Bikes/AddBikeDialog";
+import { TBike } from "@/types";
+import { Badge } from "@/components/ui/badge";
+import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Bike, Filter, SortAsc } from "lucide-react";
-import { AddBikeDialog } from "@/components/custom/Dashboard/Bikes/AddBikeDialog";
-import { BikeCard } from "@/components/custom/Dashboard/Bikes/BikeCard";
-import { TBike } from "@/types";
 
 const BikesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,22 +31,25 @@ const BikesPage = () => {
     minCC: "",
     isAvailable: "",
   });
-  const [sortBy, setSortBy] = useState("pricePerHour-asc");
+  const [sort, setSort] = useState("-createdAt");
 
-  const { data, isLoading, isError } = useGetAllBikesQuery({
+  const { data, isLoading, isError, refetch } = useGetAllBikesQuery({
     searchTerm,
-    ...filters,
-    sort: sortBy,
+    sort,
   });
   const bikes = data?.data as TBike[];
+
   return (
     <div className="container mx-auto p-4 md:p-6">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Available Bikes</h1>
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <Bike className="size-6" />
+            Bike Management
+          </h1>
           <p className="text-muted-foreground">
-            {bikes?.length || 0} bikes available for rental
+            {bikes?.length || 0} bikes in inventory
           </p>
         </div>
         <AddBikeDialog />
@@ -106,20 +117,20 @@ const BikesPage = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuCheckboxItem
-                checked={sortBy === "pricePerHour-asc"}
-                onCheckedChange={() => setSortBy("pricePerHour-asc")}
+                checked={sort === "pricePerHour"}
+                onCheckedChange={() => setSort("pricePerHour")}
               >
                 Price: Low to High
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                checked={sortBy === "pricePerHour-desc"}
-                onCheckedChange={() => setSortBy("pricePerHour-desc")}
+                checked={sort === "-pricePerHour"}
+                onCheckedChange={() => setSort("-pricePerHour")}
               >
                 Price: High to Low
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                checked={sortBy === "year-desc"}
-                onCheckedChange={() => setSortBy("year-desc")}
+                checked={sort === "-createdAt"}
+                onCheckedChange={() => setSort("-createdAt")}
               >
                 Newest First
               </DropdownMenuCheckboxItem>
@@ -130,25 +141,73 @@ const BikesPage = () => {
 
       {/* Content Section */}
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <Skeleton key={i} className="h-64 rounded-lg" />
+        <div className="space-y-4">
+          {[...Array(5)].map((_, i) => (
+            <Skeleton key={i} className="h-12 rounded-lg" />
           ))}
         </div>
       ) : isError ? (
-        <div className="text-center py-8 text-destructive">
-          Failed to load bikes. Please try again later.
+        <div className="text-center py-8 space-y-4">
+          <div className="text-destructive">Failed to load bikes</div>
+          <Button variant="outline" onClick={refetch}>
+            Retry
+          </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {bikes?.map((bike) => (
-            <BikeCard
-              key={bike._id}
-              bike={bike}
-              onEdit={() => console.log("handleEditBike(bike._id)")}
-              onDelete={() => console.log("handleDeleteBike(bike._id)")}
-            />
-          ))}
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Bike</TableHead>
+                <TableHead>Brand</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {bikes?.map((bike) => (
+                <TableRow key={bike._id}>
+                  <TableCell>
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={bike.image}
+                        className="h-12 w-12 rounded-md object-cover"
+                        alt={bike.model}
+                      />
+                      <div>
+                        <div className="font-medium">
+                          {bike.brand} {bike.model}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {bike.cc}cc • {bike.year}
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="font-medium">{bike.brand}</div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={bike.isAvailable ? "default" : "destructive"}
+                    >
+                      {bike.isAvailable ? "Available" : "Unavailable"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>${bike.pricePerHour}/hr</TableCell>
+                  <TableCell>
+                    <Button variant="ghost" size="icon">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon">
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       )}
 
@@ -158,23 +217,8 @@ const BikesPage = () => {
           <Bike className="mx-auto h-12 w-12 text-muted-foreground" />
           <p className="text-xl font-semibold">No bikes found</p>
           <p className="text-muted-foreground">
-            Try adjusting your filters or search terms
+            Try adjusting your search or add a new bike
           </p>
-          <Button
-            variant="ghost"
-            onClick={() => {
-              setSearchTerm("");
-              setFilters({
-                brand: "",
-                minPrice: "",
-                maxPrice: "",
-                minCC: "",
-                isAvailable: "",
-              });
-            }}
-          >
-            Clear Filters
-          </Button>
         </div>
       )}
     </div>
