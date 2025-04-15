@@ -11,8 +11,10 @@ import { useAppSelector } from "@/redux/hooks";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeNav, setActiveNav] = useState("dashboard");
+  const [activeNav, setActiveNav] = useState(window.location.pathname);
   const user = useAppSelector(selectCurrentUser);
+  const url = window.location.pathname;
+  console.log(activeNav, url);
 
   return (
     <div className="flex h-screen bg-background">
@@ -24,8 +26,13 @@ const DashboardLayout = () => {
       >
         <div className="h-full overflow-y-auto">
           {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-4 border-b">
-            <Link to={"/"}>
+          <div className="flex items-center justify-center p-4 border-b">
+            <Link to={"/"} className="flex items-center gap-1">
+              <img
+                src="/bike-icon.png"
+                alt="Bike Icon"
+                className="size-9 -mt-1"
+              />
               <h3 className="text-2xl sm:text-3xl font-semibold font-mono">
                 Ride<span className="text-blue-900">Easy</span>
               </h3>
@@ -49,9 +56,9 @@ const DashboardLayout = () => {
               <Link to={item.route} key={item.id}>
                 <Button
                   key={item.id}
-                  variant={activeNav === item.id ? "secondary" : "ghost"}
+                  variant={activeNav === item.route ? "secondary" : "ghost"}
                   className="w-full justify-start mb-1"
-                  onClick={() => setActiveNav(item.id)}
+                  onClick={() => setActiveNav(item.route)}
                 >
                   <item.icon className="size-4 mr-2" />
                   {item.label}
