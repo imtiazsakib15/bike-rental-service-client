@@ -12,7 +12,12 @@ const Footer = () => {
       <Container>
         <div className="grid grid-cols-2 md:grid-cols-4 pb-5 sm:pb-8 gap-10">
           <div className="col-span-2">
-            <Link to={"/"}>
+            <Link to={"/"} className="flex items-center gap-1">
+              <img
+                src="/bike-icon.png"
+                alt="Bike Icon"
+                className="size-9 -mt-1"
+              />
               <h3 className="text-2xl sm:text-3xl font-semibold text-gray-100 font-mono">
                 Ride<span className="text-blue-900">Easy</span>
               </h3>

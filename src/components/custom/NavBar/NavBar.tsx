@@ -28,7 +28,12 @@ const NavBar = () => {
     <div className="bg-white py-3 lg:py-4 border-b shadow-md">
       <Container>
         <div className="flex justify-between">
-          <Link to={"/"}>
+          <Link to={"/"} className="flex items-center gap-1">
+            <img
+              src="/bike-icon.png"
+              alt="Bike Icon"
+              className="size-9 -mt-1"
+            />
             <h3 className="text-2xl sm:text-3xl font-semibold font-mono">
               Ride<span className="text-blue-900">Easy</span>
             </h3>
