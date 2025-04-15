@@ -34,27 +34,51 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: (
+          <SuspenseFallback>
+            <Home />
+          </SuspenseFallback>
+        ),
       },
       {
         path: "/auth/login",
-        element: <Login />,
+        element: (
+          <SuspenseFallback>
+            <Login />
+          </SuspenseFallback>
+        ),
       },
       {
         path: "/auth/signup",
-        element: <SignUp />,
+        element: (
+          <SuspenseFallback>
+            <SignUp />
+          </SuspenseFallback>
+        ),
       },
       {
         path: "/about-us",
-        element: <AboutUs />,
+        element: (
+          <SuspenseFallback>
+            <AboutUs />
+          </SuspenseFallback>
+        ),
       },
       {
         path: "/all-bikes",
-        element: <AllBikes />,
+        element: (
+          <SuspenseFallback>
+            <AllBikes />
+          </SuspenseFallback>
+        ),
       },
       {
         path: "/bikes/:id",
-        element: <SingleBike />,
+        element: (
+          <SuspenseFallback>
+            <SingleBike />
+          </SuspenseFallback>
+        ),
       },
     ],
   },
@@ -75,13 +99,19 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: (
+          <SuspenseFallback>
+            <Dashboard />
+          </SuspenseFallback>
+        ),
       },
       {
         path: "bikes",
         element: (
           <AdminRoute>
-            <BikesPage />
+            <SuspenseFallback>
+              <BikesPage />
+            </SuspenseFallback>
           </AdminRoute>
         ),
       },
@@ -89,7 +119,9 @@ export const router = createBrowserRouter([
         path: "users",
         element: (
           <AdminRoute>
-            <Users />
+            <SuspenseFallback>
+              <Users />
+            </SuspenseFallback>
           </AdminRoute>
         ),
       },
