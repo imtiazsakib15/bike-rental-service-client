@@ -10,11 +10,9 @@ import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
 
 const DashboardLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeNav, setActiveNav] = useState(window.location.pathname);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeNav, setActiveNav] = useState(window.location?.pathname);
   const user = useAppSelector(selectCurrentUser);
-  const url = window.location.pathname;
-  console.log(activeNav, url);
 
   return (
     <div className="flex h-screen bg-background">
@@ -22,7 +20,7 @@ const DashboardLayout = () => {
       <aside
         className={`${
           isSidebarOpen ? "w-64" : "w-0"
-        } lg:w-64 transition-all duration-300 fixed lg:relative h-full bg-white border-r`}
+        } lg:w-64 transition-all duration-300 fixed lg:relative h-full bg-white z-10 border-r`}
       >
         <div className="h-full overflow-y-auto">
           {/* Sidebar Header */}
@@ -58,7 +56,10 @@ const DashboardLayout = () => {
                   key={item.id}
                   variant={activeNav === item.route ? "secondary" : "ghost"}
                   className="w-full justify-start mb-1"
-                  onClick={() => setActiveNav(item.route)}
+                  onClick={() => {
+                    setActiveNav(item.route);
+                    setIsSidebarOpen(false);
+                  }}
                 >
                   <item.icon className="size-4 mr-2" />
                   {item.label}
