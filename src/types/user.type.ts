@@ -5,6 +5,7 @@ export type TUser = {
   role: string;
   phone: string;
   address: string;
+  isActive: boolean;
   createdAt: string;
   updatedAt: string;
 };

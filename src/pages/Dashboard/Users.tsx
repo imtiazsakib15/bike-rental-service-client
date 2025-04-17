@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import {
+  useGetAllUsersQuery,
+  useUpdateUserMutation,
+} from "@/redux/features/user/userApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,7 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, MoreVertical, Shield, Trash2, Edit } from "lucide-react";
+import { User, MoreVertical, Shield, Trash2, Undo } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
@@ -31,6 +34,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import TableRowSkeleton from "@/components/custom/Dashboard/Users/TableRowSkeleton";
 import { TUser } from "@/types";
+import { toast } from "sonner";
 
 const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,17 +44,32 @@ const Users = () => {
     searchTerm,
     role: selectedRole,
   });
+  const [updateUser] = useUpdateUserMutation();
 
   const users: TUser[] = data?.data;
 
-  const handleDeleteUser = async (userId: string) => {
-    console.log("Deleting user:", userId);
-    // await deleteUser(userId).unwrap()
+  type TUpdateUserParams = {
+    userId: string;
+    newRole?: string;
+    isActive?: boolean;
   };
 
-  const handleUpdateRole = async (userId: string, newRole: string) => {
-    console.log("Updating role for:", userId, "to", newRole);
-    // await updateUserRole({ userId, role: newRole }).unwrap()
+  const handleUpdateUser = async ({
+    userId,
+    newRole,
+    isActive,
+  }: TUpdateUserParams) => {
+    const result = await updateUser({
+      userId,
+      role: newRole,
+      isActive,
+    }).unwrap();
+
+    if (result.error) {
+      toast.error(result.error.message || "Failed to update user");
+      return;
+    }
+    toast.success(result.message || "User updated successfully");
   };
 
   return (
@@ -128,7 +147,7 @@ const Users = () => {
             ) : users?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="text-center h-24">
-                  No users found
+                  No user found
                 </TableCell>
               </TableRow>
             ) : (
@@ -152,10 +171,8 @@ const Users = () => {
                     {new Date(user.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <Badge variant="default">
-                      {/* variant={user.isActive ? "default" : "destructive"}> */}
-                      {/* {user.isActive ? "Active" : "Inactive"} */}
-                      Active
+                    <Badge variant={user.isActive ? "default" : "destructive"}>
+                      {user.isActive ? "Active" : "Inactive"}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
@@ -168,10 +185,10 @@ const Users = () => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem
                           onClick={() =>
-                            handleUpdateRole(
-                              user._id,
-                              user.role === "admin" ? "user" : "admin"
-                            )
+                            handleUpdateUser({
+                              userId: user._id,
+                              newRole: user.role === "admin" ? "user" : "admin",
+                            })
                           }
                         >
                           <Shield className="mr-2 h-4 w-4" />
@@ -179,38 +196,56 @@ const Users = () => {
                             ? "Demote to User"
                             : "Promote to Admin"}
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Edit className="mr-2 h-4 w-4" />
-                          Edit Profile
-                        </DropdownMenuItem>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-destructive hover:bg-accent">
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Delete User
-                            </div>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>
-                                Confirm Deletion
-                              </AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Are you sure you want to delete {user.name}'s
-                                account? This action cannot be undone.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => handleDeleteUser(user._id)}
-                                className="bg-destructive hover:bg-destructive/90"
-                              >
+
+                        {!user.isActive && (
+                          <DropdownMenuItem
+                            onClick={() =>
+                              handleUpdateUser({
+                                userId: user._id,
+                                isActive: true,
+                              })
+                            }
+                          >
+                            <Undo className="mr-2 h-4 w-4" />
+                            Reactivate User
+                          </DropdownMenuItem>
+                        )}
+
+                        {user.isActive && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm text-destructive hover:bg-accent">
+                                <Trash2 className="mr-2 h-4 w-4" />
                                 Delete User
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
+                              </div>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Confirm Deletion
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete {user.name}'s
+                                  account?
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() =>
+                                    handleUpdateUser({
+                                      userId: user._id,
+                                      isActive: false,
+                                    })
+                                  }
+                                  className="bg-destructive hover:bg-destructive/90"
+                                >
+                                  Delete User
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

@@ -10,7 +10,16 @@ const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Users"],
     }),
+
+    updateUser: builder.mutation({
+      query: ({ userId, role, isActive }) => ({
+        url: `/users/${userId}`,
+        method: "PUT",
+        body: { role, isActive },
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery } = userApi;
+export const { useGetAllUsersQuery, useUpdateUserMutation } = userApi;
