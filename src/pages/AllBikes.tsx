@@ -6,6 +6,19 @@ import {
   useGetTotalBikeNumberQuery,
 } from "@/redux/features/bike/bikeApi";
 import { TBike } from "@/types";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useCreateRentalMutation } from "@/redux/features/rental/rentalApi";
+
 const AllBikes = () => {
   const [filters, setFilters] = useState({
     searchTerm: "",
@@ -23,6 +36,7 @@ const AllBikes = () => {
 
   const { data: totalBikes } = useGetTotalBikeNumberQuery("");
   const { data, isLoading, isError } = useGetAllBikesQuery(filters);
+  const [createRental] = useCreateRentalMutation();
   const bikes = data?.data;
 
   const handleFilterChange = (
@@ -34,6 +48,18 @@ const AllBikes = () => {
       [name]: value,
       page: 1, // Reset to first page when filters change
     }));
+  };
+
+  const handlePayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const rentalInfo = {
+      bikeId: (e.target as HTMLFormElement).bikeId.value,
+      startTime: new Date().toISOString(),
+    };
+    console.log(rentalInfo);
+    const result = await createRental(rentalInfo).unwrap();
+    window.location.replace(result.data.payment_url);
   };
 
   return (
@@ -219,23 +245,53 @@ const AllBikes = () => {
                     </div>
 
                     {/* Add View Details Button */}
-                    <div className="flex gap-2">
+                    <div className="grid gap-2 grid-cols-2">
                       <Link
                         to={`/bikes/${bike._id}`}
                         className="w-full py-2 px-4 text-center text-sm font-medium bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
                       >
                         View Details
                       </Link>
-                      <button
-                        disabled={!bike.isAvailable}
-                        className={`w-full py-2 px-4 rounded text-white text-sm font-medium transition-colors ${
-                          bike.isAvailable
-                            ? "bg-blue-950 hover:bg-blue-900"
-                            : "bg-gray-400 cursor-not-allowed"
-                        }`}
-                      >
-                        Rent Now
-                      </button>
+
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <button
+                            disabled={!bike.isAvailable}
+                            className={`w-full py-2 px-4 rounded text-white text-sm font-medium transition-colors ${
+                              bike.isAvailable
+                                ? "bg-blue-950 hover:bg-blue-900"
+                                : "bg-gray-400 cursor-not-allowed"
+                            }`}
+                          >
+                            Rent Now
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <form className="w-full" onSubmit={handlePayment}>
+                            <input
+                              type="hidden"
+                              name="bikeId"
+                              value={bike._id}
+                            />
+                            <DialogHeader>
+                              <DialogTitle>
+                                Pay 500 TK as service charge?
+                              </DialogTitle>
+                              <DialogDescription>
+                                To rent this bike, you need to pay 500 TK as
+                                service charge. Click "Proceed" to proceed with
+                                the payment.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                              <DialogClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                              </DialogClose>
+                              <Button type="submit">Proceed</Button>
+                            </DialogFooter>{" "}
+                          </form>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 ))}
