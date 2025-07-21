@@ -6,18 +6,7 @@ import {
   useGetTotalBikeNumberQuery,
 } from "@/redux/features/bike/bikeApi";
 import { TBike } from "@/types";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { useCreateRentalMutation } from "@/redux/features/rental/rentalApi";
+import RentButtonWithPayment from "@/components/custom/shared/RentButtonWithPayment";
 
 const AllBikes = () => {
   const [filters, setFilters] = useState({
@@ -36,7 +25,6 @@ const AllBikes = () => {
 
   const { data: totalBikes } = useGetTotalBikeNumberQuery("");
   const { data, isLoading, isError } = useGetAllBikesQuery(filters);
-  const [createRental] = useCreateRentalMutation();
   const bikes = data?.data;
 
   const handleFilterChange = (
@@ -48,18 +36,6 @@ const AllBikes = () => {
       [name]: value,
       page: 1, // Reset to first page when filters change
     }));
-  };
-
-  const handlePayment = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const rentalInfo = {
-      bikeId: (e.target as HTMLFormElement).bikeId.value,
-      startTime: new Date().toISOString(),
-    };
-    console.log(rentalInfo);
-    const result = await createRental(rentalInfo).unwrap();
-    window.location.replace(result.data.payment_url);
   };
 
   return (
@@ -231,7 +207,7 @@ const AllBikes = () => {
                     </p>
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-xl font-bold">
-                        ${bike.pricePerHour}/hr
+                        {bike.pricePerHour}tk/hr
                       </span>
                       <span
                         className={`px-2 py-1 rounded ${
@@ -253,45 +229,7 @@ const AllBikes = () => {
                         View Details
                       </Link>
 
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <button
-                            disabled={!bike.isAvailable}
-                            className={`w-full py-2 px-4 rounded text-white text-sm font-medium transition-colors ${
-                              bike.isAvailable
-                                ? "bg-blue-950 hover:bg-blue-900"
-                                : "bg-gray-400 cursor-not-allowed"
-                            }`}
-                          >
-                            Rent Now
-                          </button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                          <form className="w-full" onSubmit={handlePayment}>
-                            <input
-                              type="hidden"
-                              name="bikeId"
-                              value={bike._id}
-                            />
-                            <DialogHeader>
-                              <DialogTitle>
-                                Pay 500 TK as service charge?
-                              </DialogTitle>
-                              <DialogDescription>
-                                To rent this bike, you need to pay 500 TK as
-                                service charge. Click "Proceed" to proceed with
-                                the payment.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter>
-                              <DialogClose asChild>
-                                <Button variant="outline">Cancel</Button>
-                              </DialogClose>
-                              <Button type="submit">Proceed</Button>
-                            </DialogFooter>{" "}
-                          </form>
-                        </DialogContent>
-                      </Dialog>
+                      <RentButtonWithPayment bike={bike} />
                     </div>
                   </div>
                 ))}
