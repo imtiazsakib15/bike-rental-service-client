@@ -10,7 +10,14 @@ const rentalApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Rentals"],
     }),
+    getAllRentals: builder.query({
+      query: () => ({
+        url: "/rentals/all",
+        method: "GET",
+      }),
+      providesTags: ["Rentals"],
+    }),
   }),
 });
 
-export const { useCreateRentalMutation } = rentalApi;
+export const { useCreateRentalMutation, useGetAllRentalsQuery } = rentalApi;

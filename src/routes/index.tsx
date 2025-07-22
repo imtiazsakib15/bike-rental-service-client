@@ -17,6 +17,7 @@ const DashboardLayout = lazy(() => import("@/layout/DashboardLayout"));
 const Dashboard = lazy(() => import("@/pages/Dashboard/Dashboard"));
 const BikesPage = lazy(() => import("@/pages/Dashboard/BikesPage"));
 const Users = lazy(() => import("@/pages/Dashboard/Users"));
+const Rentals = lazy(() => import("@/pages/Dashboard/Rentals"));
 
 export const router = createBrowserRouter([
   {
@@ -121,6 +122,16 @@ export const router = createBrowserRouter([
           <AdminRoute>
             <SuspenseFallback>
               <Users />
+            </SuspenseFallback>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "rentals",
+        element: (
+          <AdminRoute>
+            <SuspenseFallback>
+              <Rentals />
             </SuspenseFallback>
           </AdminRoute>
         ),

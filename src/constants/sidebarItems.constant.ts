@@ -1,11 +1,5 @@
 import { TSidebarItem } from "@/types";
-import {
-  Bike,
-  DollarSign,
-  LayoutDashboard,
-  Settings,
-  Users,
-} from "lucide-react";
+import { Bike, DollarSign, LayoutDashboard, Users } from "lucide-react";
 
 export const ADMIN_SIDEBAR_ITEMS: TSidebarItem[] = [
   {
@@ -22,16 +16,10 @@ export const ADMIN_SIDEBAR_ITEMS: TSidebarItem[] = [
   },
   { id: "users", label: "Users", route: "/dashboard/users", icon: Users },
   {
-    id: "finance",
-    label: "Finance",
-    route: "/dashboard/finance",
+    id: "rentals",
+    label: "Rentals",
+    route: "/dashboard/rentals",
     icon: DollarSign,
-  },
-  {
-    id: "settings",
-    label: "Settings",
-    route: "/dashboard/settings",
-    icon: Settings,
   },
 ];
 
