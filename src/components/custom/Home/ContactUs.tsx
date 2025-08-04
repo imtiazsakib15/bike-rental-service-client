@@ -23,7 +23,7 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-10 sm:pt-12 lg:pt-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
       <Title>Contact Us</Title>
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-6">
