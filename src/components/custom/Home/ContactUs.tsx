@@ -34,7 +34,7 @@ const ContactUs = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="sm:w-2/3 space-y-6 mx-auto"
+              className="lg:w-3/4 space-y-6 mx-auto py-4"
             >
               <InputField control={form.control} name="name" label="Name" />
               <InputField control={form.control} name="email" label="Email" />

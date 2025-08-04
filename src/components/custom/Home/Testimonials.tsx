@@ -7,7 +7,7 @@ const Testimonials = () => {
       <Container>
         <Title>Testimonials</Title>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 sm:mt-6 md:mt-8">
           <div className="flex h-auto border rounded-xl">
             <div className="flex flex-col bg-white rounded-xl">
               <div className="flex-auto p-4 md:p-6">

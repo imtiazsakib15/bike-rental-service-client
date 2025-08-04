@@ -4,10 +4,10 @@ import Title from "../shared/Title";
 
 const Blogs = () => {
   return (
-    <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto pb-16">
+    <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto pt-6 sm:pt-8 md:pt-10">
       <Title>Blogs</Title>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4 sm:mt-6 md:mt-8">
         {BLOGS.map((blog) => (
           <div
             key={blog.id}

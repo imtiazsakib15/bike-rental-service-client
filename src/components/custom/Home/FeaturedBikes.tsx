@@ -11,7 +11,7 @@ const FeaturedBikes = () => {
 
   return (
     <Container>
-      <div className="py-6 sm:py-8 md:py-10">
+      <div className="mt-4 sm:mt-6 md:mt-8">
         <Title>Featured Bikes</Title>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
