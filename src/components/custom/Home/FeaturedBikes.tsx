@@ -3,9 +3,10 @@ import Container from "../Container";
 import { TBike } from "@/types";
 import { Link } from "react-router-dom";
 import Title from "../shared/Title";
+import FeaturedBikesCardSkeleton from "../shared/FeaturedBikesCardSkeleton";
 
 const FeaturedBikes = () => {
-  const { data } = useGetAllBikesQuery({ limit: "6" });
+  const { data, isLoading, isError } = useGetAllBikesQuery({ limit: "6" });
 
   const bikes = data?.data as TBike[];
 
@@ -14,7 +15,19 @@ const FeaturedBikes = () => {
       <div className="mt-4 sm:mt-6 md:mt-8">
         <Title>Featured Bikes</Title>
 
+        {isError && (
+          <div className="text-center sm:text-lg font-medium text-red-500 py-8">
+            Something went wrong!
+          </div>
+        )}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+          {isLoading && (
+            <>
+              <FeaturedBikesCardSkeleton />
+              <FeaturedBikesCardSkeleton />
+              <FeaturedBikesCardSkeleton />
+            </>
+          )}
           {bikes &&
             bikes.map((bike: TBike) => (
               <div

@@ -7,6 +7,7 @@ import {
 } from "@/redux/features/bike/bikeApi";
 import { TBike } from "@/types";
 import RentButtonWithPayment from "@/components/custom/shared/RentButtonWithPayment";
+import AllBikesCardSkeleton from "@/components/custom/shared/AllBikesCardSkeleton";
 
 const AllBikes = () => {
   const [filters, setFilters] = useState({
@@ -20,7 +21,7 @@ const AllBikes = () => {
     isAvailable: "",
     sort: "",
     page: 1,
-    limit: 6,
+    limit: 12,
   });
 
   const { data: totalBikes } = useGetTotalBikeNumberQuery("");
@@ -34,7 +35,7 @@ const AllBikes = () => {
     setFilters((prev) => ({
       ...prev,
       [name]: value,
-      page: 1, // Reset to first page when filters change
+      page: 1,
     }));
   };
 
@@ -170,26 +171,25 @@ const AllBikes = () => {
           </div>
         </div>
 
-        {/* Bike Listings */}
         <div className="lg:col-span-3">
-          {isLoading ? (
-            <div className="text-center py-8">Loading bikes...</div>
-          ) : (
-            <></>
+          {isLoading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <AllBikesCardSkeleton />
+              <AllBikesCardSkeleton />
+              <AllBikesCardSkeleton />
+            </div>
           )}
 
-          {isError ? (
+          {isError && (
             <div className="text-center sm:text-lg font-medium text-red-500 py-8">
               Something went wrong!
             </div>
-          ) : (
-            <></>
           )}
 
-          {bikes ? (
+          {bikes && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {(bikes as TBike[]).map((bike) => (
+                {(bikes as TBike[])?.map((bike) => (
                   <div
                     key={bike._id}
                     className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
@@ -256,8 +256,6 @@ const AllBikes = () => {
                 ))}
               </div>
             </>
-          ) : (
-            <></>
           )}
         </div>
       </div>
