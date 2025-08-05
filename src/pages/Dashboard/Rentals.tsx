@@ -33,9 +33,11 @@ import { TRental } from "@/types";
 const Rentals = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
-    status: "all",
+    isReturned: "",
+    page: 1,
+    limit: 10,
   });
-
+  console.log(searchTerm);
   const [sortBy, setSortBy] = useState("startTime-desc");
 
   const { data, isLoading, isError, refetch } = useGetAllRentalsQuery({
@@ -43,11 +45,12 @@ const Rentals = () => {
     ...filters,
     sort: sortBy,
   });
-
+  console.log(data);
   const rentals: TRental[] = data?.data || [];
+  const rentalsCount = data?.meta?.total || 0;
 
-  const handleStatusFilter = (status: string) => {
-    setFilters((prev) => ({ ...prev, status }));
+  const handleStatusFilter = (isReturned: string) => {
+    setFilters((prev) => ({ ...prev, isReturned }));
   };
 
   return (
@@ -57,7 +60,7 @@ const Rentals = () => {
         <div>
           <h1 className="text-2xl font-bold">Rental Management</h1>
           <p className="text-muted-foreground">
-            {rentals.length} {rentals.length === 1 ? "rental" : "rentals"} in
+            {rentalsCount} {rentalsCount === 1 ? "rental" : "rentals"} in
             history
           </p>
         </div>
@@ -86,20 +89,20 @@ const Rentals = () => {
             {/* Status Filter */}
             <div className="flex gap-2">
               <Button
-                variant={filters.status === "all" ? "default" : "outline"}
-                onClick={() => handleStatusFilter("all")}
+                variant={filters.isReturned === "" ? "default" : "outline"}
+                onClick={() => handleStatusFilter("")}
               >
                 All
               </Button>
               <Button
-                variant={filters.status === "active" ? "default" : "outline"}
-                onClick={() => handleStatusFilter("active")}
+                variant={filters.isReturned === "false" ? "default" : "outline"}
+                onClick={() => handleStatusFilter("false")}
               >
                 Active
               </Button>
               <Button
-                variant={filters.status === "completed" ? "default" : "outline"}
-                onClick={() => handleStatusFilter("completed")}
+                variant={filters.isReturned === "true" ? "default" : "outline"}
+                onClick={() => handleStatusFilter("true")}
               >
                 Completed
               </Button>
@@ -187,7 +190,7 @@ const Rentals = () => {
                   Failed to load rentals
                 </TableCell>
               </TableRow>
-            ) : rentals.length === 0 ? (
+            ) : rentalsCount === 0 ? (
               <TableRow>
                 <TableCell colSpan={7} className="text-center h-24">
                   No rentals found
@@ -242,9 +245,9 @@ const Rentals = () => {
 
                   <TableCell>
                     <Badge
-                      variant={!rental.isReturned ? "default" : "secondary"}
+                      variant={!rental.returnTime ? "default" : "secondary"}
                     >
-                      {!rental.isReturned ? "Active" : "Completed"}
+                      {!rental.returnTime ? "Active" : "Completed"}
                     </Badge>
                   </TableCell>
 
@@ -280,7 +283,7 @@ const Rentals = () => {
       {/* Pagination */}
       <div className="flex justify-end items-center gap-4 mt-6">
         <div className="text-sm text-muted-foreground">
-          Showing 1-{Math.min(10, rentals.length)} of {rentals.length} rentals
+          Showing 1-{Math.min(10, rentalsCount)} of {rentalsCount} rentals
         </div>
         <div className="flex gap-2">
           <Button variant="outline" disabled>

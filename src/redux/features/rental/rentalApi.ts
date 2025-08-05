@@ -8,13 +8,21 @@ const rentalApi = baseApi.injectEndpoints({
         method: "POST",
         body: rentalData,
       }),
-      invalidatesTags: ["Rentals"],
+      invalidatesTags: ["Rentals", "Bikes"],
     }),
     getAllRentals: builder.query({
-      query: () => ({
-        url: "/rentals/all",
-        method: "GET",
-      }),
+      query: (query?: Record<string, unknown>) => {
+        const queryParams = new URLSearchParams();
+        if (query) {
+          Object.entries(query).forEach(([key, value]) => {
+            if (value) queryParams.set(key, value.toString());
+          });
+        }
+        return {
+          url: query ? `/rentals/all?${queryParams}` : "/rentals/all",
+          method: "GET",
+        };
+      },
       providesTags: ["Rentals"],
     }),
   }),
