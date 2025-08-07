@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { useGetAllRentalsQuery } from "@/redux/features/rental/rentalApi";
+import {
+  useGetAllRentalsQuery,
+  useReturnBikeMutation,
+} from "@/redux/features/rental/rentalApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -37,7 +40,7 @@ const Rentals = () => {
     page: 1,
     limit: 10,
   });
-  console.log(searchTerm);
+
   const [sortBy, setSortBy] = useState("startTime-desc");
 
   const { data, isLoading, isError, refetch } = useGetAllRentalsQuery({
@@ -45,7 +48,8 @@ const Rentals = () => {
     ...filters,
     sort: sortBy,
   });
-  console.log(data);
+  const [returnBike] = useReturnBikeMutation();
+
   const rentals: TRental[] = data?.data || [];
   const rentalsCount = data?.meta?.total || 0;
 
@@ -264,12 +268,11 @@ const Rentals = () => {
                         </DropdownMenuItem>
                         {!rental.returnTime && (
                           <DropdownMenuItem>
-                            <span>Mark as Returned</span>
+                            <button onClick={() => returnBike(rental._id)}>
+                              Mark as Returned
+                            </button>
                           </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem className="text-destructive">
-                          <span>Cancel Rental</span>
-                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
